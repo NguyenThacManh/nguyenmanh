@@ -1,0 +1,6 @@
+@model IEnumerable<Reader>
+@{ ViewData["Title"] = "Readers"; }
+<div class="d-flex justify-content-between mb-3"><h2>Readers</h2><a asp-action="Create" class="btn btn-success">+ Add Reader</a></div>
+<table class="table table-striped"><thead><tr><th>FullName</th><th>Email</th><th>Phone</th><th>Address</th><th></th></tr></thead><tbody>
+@foreach (var r in Model){<tr><td>@r.FullName</td><td>@r.Email</td><td>@r.PhoneNumber</td><td>@r.Address</td><td class="text-end"><a asp-action="Edit" asp-route-id="@r.Id" class="btn btn-sm btn-outline-warning">Edit</a></td></tr>}
+</tbody></table>

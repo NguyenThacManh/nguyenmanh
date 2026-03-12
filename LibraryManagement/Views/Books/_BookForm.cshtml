@@ -1,0 +1,53 @@
+@model Book
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="Title" class="form-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Author" class="form-label"></label>
+        <input asp-for="Author" class="form-control" />
+        <span asp-validation-for="Author" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Category" class="form-label"></label>
+        <input asp-for="Category" class="form-control" />
+        <span asp-validation-for="Category" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Quantity" class="form-label"></label>
+        <input asp-for="Quantity" class="form-control" />
+        <span asp-validation-for="Quantity" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="PublishYear" class="form-label"></label>
+        <input asp-for="PublishYear" class="form-control" />
+        <span asp-validation-for="PublishYear" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Barcode" class="form-label"></label>
+        <input asp-for="Barcode" class="form-control" placeholder="VD: B001" />
+    </div>
+    <div class="col-md-4">
+        <label asp-for="QrCode" class="form-label"></label>
+        <input asp-for="QrCode" class="form-control" placeholder="VD: BOOK-B001" />
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">Upload ảnh bìa</label>
+        <input type="file" name="coverFile" class="form-control" accept="image/*" />
+    </div>
+    <div class="col-12">
+        <label asp-for="ShelfLocation" class="form-label"></label>
+        <input asp-for="ShelfLocation" class="form-control" />
+        <span asp-validation-for="ShelfLocation" class="text-danger"></span>
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(Model.CoverImagePath))
+    {
+        <div class="col-12">
+            <img src="@Model.CoverImagePath" alt="cover" style="max-height:180px" class="rounded border" />
+        </div>
+    }
+</div>

@@ -1,0 +1,25 @@
+@model ReportViewModel
+@{ ViewData["Title"] = "Reports"; }
+<h2 class="mb-3">Reports</h2>
+<div class="row g-3 mb-3">
+    <div class="col-md-3"><div class="card"><div class="card-body"><div>Total Borrows</div><div class="h3">@Model.TotalBorrows</div></div></div></div>
+    <div class="col-md-3"><div class="card"><div class="card-body"><div>Returned</div><div class="h3">@Model.ReturnedBorrows</div></div></div></div>
+    <div class="col-md-3"><div class="card"><div class="card-body"><div>Borrowing</div><div class="h3">@Model.BorrowingBorrows</div></div></div></div>
+    <div class="col-md-3"><div class="card"><div class="card-body"><div>Overdue</div><div class="h3 text-danger">@Model.OverdueBorrows</div></div></div></div>
+</div>
+
+<table class="table table-hover">
+    <thead><tr><th>Book</th><th>Reader</th><th>BorrowDate</th><th>DueDate</th><th>ReturnDate</th></tr></thead>
+    <tbody>
+    @foreach (var item in Model.RecentTransactions)
+    {
+        <tr>
+            <td>@item.Book?.Title</td>
+            <td>@item.Reader?.FullName</td>
+            <td>@item.BorrowDate.ToString("dd/MM/yyyy")</td>
+            <td>@item.DueDate.ToString("dd/MM/yyyy")</td>
+            <td>@(item.ReturnDate?.ToString("dd/MM/yyyy") ?? "-")</td>
+        </tr>
+    }
+    </tbody>
+</table>
