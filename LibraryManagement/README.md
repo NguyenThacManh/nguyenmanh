@@ -12,7 +12,7 @@ Project mẫu quản lý thư viện xây dựng bằng ASP.NET Core MVC 8.
 
 ## Bảo mật truy cập
 - Bắt buộc đăng nhập trước khi sử dụng bất kỳ chức năng nào của hệ thống.
-- Nếu chưa đăng nhập, mọi route sẽ được chuyển hướng về `/Account/Login`.
+- Nếu chưa đăng nhập, mọi route sẽ được chuyển hướng về `/Account/Login` và thanh điều hướng sẽ chỉ hiển thị Login/Register.
 
 ## Tính năng mở rộng đã thêm
 ### 1) Chức năng người dùng

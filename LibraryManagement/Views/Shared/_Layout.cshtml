@@ -1,3 +1,7 @@
+@{
+    var isLoggedIn = Context.Session.GetInt32("UserId").HasValue;
+    var username = Context.Session.GetString("Username") ?? string.Empty;
+}
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -11,19 +15,34 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-controller="Dashboard" asp-action="Index">LibraryManagement</a>
-                <div class="navbar-nav flex-wrap">
-                    <a class="nav-link" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
-                    <a class="nav-link" asp-controller="Books" asp-action="Index">Books</a>
-                    <a class="nav-link" asp-controller="Categories" asp-action="Index">Categories</a>
-                    <a class="nav-link" asp-controller="Readers" asp-action="Index">Readers</a>
-                    <a class="nav-link" asp-controller="BorrowReturns" asp-action="Index">Borrow / Return</a>
-                    <a class="nav-link" asp-controller="Reports" asp-action="Index">Reports</a>
-                    <a class="nav-link" asp-controller="Statistics" asp-action="Index">Statistics</a>
-                    <a class="nav-link" asp-controller="UserFeatures" asp-action="Index">User Portal</a>
-                    <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
-                    <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
-                    <a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a>
+                <a class="navbar-brand" asp-controller="@(isLoggedIn ? "Dashboard" : "Account")" asp-action="@(isLoggedIn ? "Index" : "Login")">LibraryManagement</a>
+                <div class="navbar-nav flex-wrap w-100 justify-content-between align-items-lg-center">
+                    <div class="d-flex flex-wrap">
+                        @if (isLoggedIn)
+                        {
+                            <a class="nav-link" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                            <a class="nav-link" asp-controller="Books" asp-action="Index">Books</a>
+                            <a class="nav-link" asp-controller="Categories" asp-action="Index">Categories</a>
+                            <a class="nav-link" asp-controller="Readers" asp-action="Index">Readers</a>
+                            <a class="nav-link" asp-controller="BorrowReturns" asp-action="Index">Borrow / Return</a>
+                            <a class="nav-link" asp-controller="Reports" asp-action="Index">Reports</a>
+                            <a class="nav-link" asp-controller="Statistics" asp-action="Index">Statistics</a>
+                            <a class="nav-link" asp-controller="UserFeatures" asp-action="Index">User Portal</a>
+                        }
+                    </div>
+
+                    <div class="d-flex flex-wrap align-items-center">
+                        @if (isLoggedIn)
+                        {
+                            <span class="navbar-text text-white me-3">Xin chào, @username</span>
+                            <a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a>
+                        }
+                        else
+                        {
+                            <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+                            <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
+                        }
+                    </div>
                 </div>
             </div>
         </nav>
