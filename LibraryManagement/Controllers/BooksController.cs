@@ -6,26 +6,62 @@ namespace LibraryManagement.Controllers;
 
 public class BooksController(ILibraryService libraryService, IWebHostEnvironment env) : Controller
 {
-    private const int PageSize = 6;
+    private const int DefaultPageSize = 6;
 
     [HttpGet]
-    public IActionResult Index(string? searchTerm, int page = 1)
+    public IActionResult Index(string? searchTerm, string? category, string sortBy = "title_asc", int page = 1, int pageSize = DefaultPageSize)
     {
         var validPage = page < 1 ? 1 : page;
-        var matchedBooks = libraryService.Search(searchTerm).ToList();
-        var totalItems = matchedBooks.Count;
+        var validPageSize = pageSize is 6 or 12 or 24 ? pageSize : DefaultPageSize;
+        var normalizedSearch = searchTerm?.Trim() ?? string.Empty;
+        var normalizedCategory = category?.Trim() ?? string.Empty;
 
-        var pagedBooks = matchedBooks
-            .Skip((validPage - 1) * PageSize)
-            .Take(PageSize)
+        var allBooks = libraryService.Search(normalizedSearch).ToList();
+        var categories = allBooks
+            .Select(x => x.Category)
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .OrderBy(x => x)
+            .ToList();
+
+        var filteredBooks = allBooks.AsEnumerable();
+
+        if (!string.IsNullOrWhiteSpace(normalizedCategory))
+        {
+            filteredBooks = filteredBooks.Where(x => x.Category.Equals(normalizedCategory, StringComparison.OrdinalIgnoreCase));
+        }
+
+        filteredBooks = sortBy switch
+        {
+            "title_desc" => filteredBooks.OrderByDescending(x => x.Title),
+            "author_asc" => filteredBooks.OrderBy(x => x.Author),
+            "author_desc" => filteredBooks.OrderByDescending(x => x.Author),
+            "year_desc" => filteredBooks.OrderByDescending(x => x.PublishYear),
+            "year_asc" => filteredBooks.OrderBy(x => x.PublishYear),
+            _ => filteredBooks.OrderBy(x => x.Title)
+        };
+
+        var totalItems = filteredBooks.Count();
+        var totalPages = Math.Max(1, (int)Math.Ceiling(totalItems / (double)validPageSize));
+        if (validPage > totalPages)
+        {
+            validPage = totalPages;
+        }
+
+        var pagedBooks = filteredBooks
+            .Skip((validPage - 1) * validPageSize)
+            .Take(validPageSize)
             .ToList();
 
         var viewModel = new BooksIndexViewModel
         {
             Books = pagedBooks,
-            SearchTerm = searchTerm?.Trim() ?? string.Empty,
+            Categories = categories,
+            SearchTerm = normalizedSearch,
+            Category = normalizedCategory,
+            SortBy = sortBy,
             PageNumber = validPage,
-            PageSize = PageSize,
+            PageSize = validPageSize,
             TotalItems = totalItems
         };
 

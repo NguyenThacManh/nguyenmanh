@@ -31,6 +31,8 @@ Project mẫu quản lý thư viện xây dựng bằng ASP.NET Core MVC 8.
 - Thông báo sách đặt trước đã có sẵn (khi còn số lượng > 0).
 
 ### 4) Tính năng nâng cao
+- Tìm kiếm nâng cao (từ khóa, thể loại, sắp xếp, số dòng/trang).
+- Giao diện danh sách sách được làm đẹp (thẻ lọc, badge, table responsive).
 - QR code cho sách (lưu chuỗi QR trong thông tin sách).
 - Barcode scan khi mượn sách (nhập/quét barcode để tự chọn sách).
 - Upload ảnh bìa sách.
