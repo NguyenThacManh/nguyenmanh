@@ -1,0 +1,11 @@
+@model DashboardViewModel
+@{ ViewData["Title"] = "Dashboard"; }
+
+<h2 class="mb-3">Dashboard</h2>
+<div class="row g-3">
+    <div class="col-md-4"><div class="card"><div class="card-body"><h5>Total Books</h5><p class="display-6">@Model.TotalBooks</p></div></div></div>
+    <div class="col-md-4"><div class="card"><div class="card-body"><h5>Total Categories</h5><p class="display-6">@Model.TotalCategories</p></div></div></div>
+    <div class="col-md-4"><div class="card"><div class="card-body"><h5>Total Readers</h5><p class="display-6">@Model.TotalReaders</p></div></div></div>
+    <div class="col-md-6"><div class="card"><div class="card-body"><h5>Borrowing</h5><p class="display-6">@Model.BorrowingCount</p></div></div></div>
+    <div class="col-md-6"><div class="card"><div class="card-body"><h5>Overdue</h5><p class="display-6 text-danger">@Model.OverdueCount</p></div></div></div>
+</div>

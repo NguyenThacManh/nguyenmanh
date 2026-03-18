@@ -1,0 +1,18 @@
+@model IEnumerable<BorrowTransaction>
+@{ ViewData["Title"] = "Borrow / Return"; }
+<div class="d-flex justify-content-between mb-3"><h2>Borrow / Return</h2><a asp-action="Borrow" class="btn btn-success">+ Borrow Book</a></div>
+<table class="table table-striped"><thead><tr><th>Book</th><th>Reader</th><th>BorrowDate</th><th>DueDate</th><th>Status</th><th></th></tr></thead><tbody>
+@foreach (var x in Model)
+{
+    <tr>
+        <td>@x.Book?.Title</td><td>@x.Reader?.FullName</td><td>@x.BorrowDate.ToString("dd/MM/yyyy")</td><td>@x.DueDate.ToString("dd/MM/yyyy")</td>
+        <td>@(x.IsReturned ? "Returned" : "Borrowing")</td>
+        <td class="text-end">
+            @if (!x.IsReturned)
+            {
+                <form method="post" asp-action="Return" asp-route-id="@x.Id" class="d-inline"><button class="btn btn-sm btn-outline-primary">Return</button></form>
+            }
+        </td>
+    </tr>
+}
+</tbody></table>

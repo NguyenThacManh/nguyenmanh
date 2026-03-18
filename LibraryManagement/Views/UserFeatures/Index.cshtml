@@ -1,0 +1,35 @@
+@model UserDashboardViewModel
+@{ ViewData["Title"] = "Người dùng"; }
+<h2>Người dùng - lịch sử mượn & thông báo</h2>
+<form method="get" class="mb-3">
+    <label class="form-label">Chọn người đọc</label>
+    <select name="readerId" asp-items="ViewBag.ReaderId" class="form-select" onchange="this.form.submit()"></select>
+</form>
+
+<h5>Thông báo</h5>
+<ul>
+@foreach (var n in Model.Notifications)
+{
+    <li>@n.Message</li>
+}
+</ul>
+
+<div class="mb-3">
+    <a asp-action="Reserve" class="btn btn-success">Đặt trước sách</a>
+</div>
+
+<h5>Lịch sử mượn sách</h5>
+<table class="table table-striped">
+    <thead><tr><th>Sách</th><th>Ngày mượn</th><th>Hạn trả</th><th>Ngày trả</th></tr></thead>
+    <tbody>
+    @foreach (var item in Model.BorrowHistory)
+    {
+        <tr>
+            <td>@item.Book?.Title</td>
+            <td>@item.BorrowDate.ToString("dd/MM/yyyy")</td>
+            <td>@item.DueDate.ToString("dd/MM/yyyy")</td>
+            <td>@(item.ReturnDate?.ToString("dd/MM/yyyy") ?? "-")</td>
+        </tr>
+    }
+    </tbody>
+</table>
